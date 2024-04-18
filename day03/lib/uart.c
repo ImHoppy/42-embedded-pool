@@ -28,6 +28,8 @@ void uart_tx(char c)
 
 void uart_printstr(const char *str)
 {
+	if (!str)
+		return;
 	for (char c = *str; c != 0; ++str, c = *str)
 		uart_tx(c);
 }
