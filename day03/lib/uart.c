@@ -2,13 +2,13 @@
 #include "uart.h"
 
 // Initialization USART 20.5
-void uart_init(void)
+void uart_init(uart_data_type data_type)
 {
 	// Set Baud Rate (20.11.5)
 	UBRR0 = BAUD;
 
-	// Enable transmitter (20.11.3)
-	UCSR0B = (1 << TXEN0);
+	// Enable transmitter/receiver (20.11.3)
+	UCSR0B = data_type;
 
 	// Set frame format: 8 data bit, N, 1 stop bit (20.11.4)
 	UCSR0C = (0b11 << UCSZ00);
@@ -32,4 +32,22 @@ void uart_printstr(const char *str)
 		return;
 	for (char c = *str; c != 0; ++str, c = *str)
 		uart_tx(c);
+}
+
+void uart_printhex(uint8_t n)
+{
+	char c = n >> 4;
+	uart_tx(c < 10 ? c + '0' : c - 10 + 'A');
+	c = n & 0x0F;
+	uart_tx(c < 10 ? c + '0' : c - 10 + 'A');
+}
+
+// Data Reception (20.7)
+char uart_rx(void)
+{
+	// Wait for data
+	while (!(UCSR0A & (1 << RXC0)))
+		;
+	// Grab data from buffer
+	return UDR0;
 }
