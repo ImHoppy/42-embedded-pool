@@ -5,11 +5,14 @@
 
 int main(void)
 {
-	uart_init(UART_TX);
+	uart_init(UART_ALL);
 
 	while (1)
 	{
-		uart_tx('Z');
-		_delay_ms(1000);
+		char c = uart_rx();
+		if (c == 0x7F)
+			uart_printstr("\b \b");
+		else
+			uart_tx(c);
 	}
 }

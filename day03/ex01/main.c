@@ -11,7 +11,7 @@ ISR(TIMER1_OVF_vect)
 
 int main(void)
 {
-	uart_init();
+	uart_init(UART_TX);
 
 	timer1_init(2000);
 	timer1_OVF();
