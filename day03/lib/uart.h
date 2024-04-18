@@ -3,6 +3,11 @@
 #define UART_BAUDRATE 115200
 #define BAUD ((F_CPU / 16.0 / UART_BAUDRATE) + 0.5) - 1
 
+// 12.4 Interrupt Vectors
+
+#define ON_RX ISR(USART_RX_vect)
+#define ON_TX ISR(USART_TX_vect)
+
 typedef enum
 {
 	UART_TX = 1 << TXEN0,
