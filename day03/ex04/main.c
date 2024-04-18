@@ -102,6 +102,7 @@ int login(const char *good_username, const char *good_password)
 int main(void)
 {
 	DDRB = 0xFF | (1 << PIN4);
+	DDRD |= (1 << PD3) | (1 << PD5) | (1 << PD6);
 	uart_init(UART_ALL);
 
 	while (1)
@@ -109,6 +110,14 @@ int main(void)
 		if (login("root", "root"))
 		{
 			uart_printstr("Welcome, root!\n\r");
+			while (1)
+			{
+				PORTD ^= (1 << PD3);
+				_delay_ms(500);
+				PORTD ^= (1 << PD5);
+				_delay_ms(500);
+				PORTD ^= (1 << PD6);
+			}
 		}
 		else
 		{
