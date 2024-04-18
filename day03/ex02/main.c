@@ -9,10 +9,6 @@ int main(void)
 
 	while (1)
 	{
-		char c = uart_rx();
-		if (c == 0x7F)
-			uart_printstr("\b \b");
-		else
-			uart_tx(c);
+		uart_tx(uart_rx());
 	}
 }
