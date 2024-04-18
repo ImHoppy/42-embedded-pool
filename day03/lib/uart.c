@@ -1,17 +1,11 @@
-#include <avr/io.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
-
-#define UART_BAUDRATE 115200
-#define BAUD ((F_CPU / 16.0 / UART_BAUDRATE) + 0.5) - 1
+#include "uart.h"
 
 // Initialization USART 20.5
-void uart_init(uint16_t ubrr)
+void uart_init(void)
 {
-	UBRR0 = 0;
-
 	// Set Baud Rate (20.11.5)
-	UBRR0 = ubrr;
+	UBRR0 = BAUD;
 
 	// Enable transmitter (20.11.3)
 	UCSR0B = (1 << TXEN0);
@@ -32,13 +26,8 @@ void uart_tx(char c)
 	UDR0 = c;
 }
 
-int main(void)
+void uart_printstr(const char *str)
 {
-	uart_init(BAUD);
-
-	while (1)
-	{
-		uart_tx('Z');
-		_delay_ms(1000);
-	}
+	for (char c = *str; c != 0; ++str, c = *str)
+		uart_tx(c);
 }
