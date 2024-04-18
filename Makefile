@@ -53,4 +53,7 @@ flash:
 clean:
 	rm -r $(TARGET_DIR)
 
+screen:
+	screen $(PORT) $(BAUD_RATE)
+
 .PHONY: all hex flash clean
