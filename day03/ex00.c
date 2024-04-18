@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 
 #define UART_BAUDRATE 115200
-#define BAUD (F_CPU / 16.0 / UART_BAUDRATE)
+#define BAUD ((F_CPU / 16.0 / UART_BAUDRATE) + 0.5) - 1
 
 // Initialization USART 20.5
 void uart_init(uint16_t ubrr)
