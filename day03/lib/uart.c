@@ -1,4 +1,3 @@
-#include <avr/interrupt.h>
 #include "uart.h"
 
 // Initialization USART 20.5

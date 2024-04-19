@@ -1,5 +1,7 @@
 #pragma once
 
+#include <avr/io.h>
+
 #define UART_BAUDRATE 115200
 #define BAUD ((F_CPU / 16.0 / UART_BAUDRATE) + 0.5) - 1
 
