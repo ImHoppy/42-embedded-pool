@@ -48,6 +48,5 @@ void i2c_stop(void)
 {
 	// Send STOP Condition
 	TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN);
-	uart_printhex(TW_STATUS);
-	uart_printstr("\n\r");
+	TWCR &= ~(1 << TWEN);
 }
