@@ -62,17 +62,43 @@ aht20_data aht20_mesure(void)
 	if (!(TWDR & _BV(AHT20_BUSY)))
 	{
 		i2c_read(ACK);
-		data.humidity = TWDR << 8;
+		data.humidity = TWDR << 12;
 		i2c_read(ACK);
-		data.humidity |= TWDR;
+		data.humidity |= TWDR << 4;
 		i2c_read(ACK);
-		data.humidity_temp = TWDR;
+		data.humidity |= (TWDR & 0xF0) >> 4;
+		data.temp = (TWDR & 0x0f) << 16;
 		i2c_read(ACK);
-		data.temp = TWDR << 8;
+		data.temp |= TWDR << 8;
 		i2c_read(ACK);
 		data.temp |= TWDR;
 		i2c_read(NACK);
 	}
 	i2c_stop();
 	return data;
+}
+
+void print_temp(uint64_t temp)
+{
+	float converted_temp = temp;
+	converted_temp /= (float)(1L << 20);
+	converted_temp *= 200.0;
+	converted_temp -= 50.0;
+	char float_str[8];
+	uart_printstr("Temperature: ");
+	dtostrf(converted_temp, 4, 2, float_str);
+	uart_printstr(float_str);
+	uart_printstr(".C");
+}
+
+void print_humi(uint64_t humi)
+{
+	float converted_humi = humi;
+	converted_humi /= (float)(1L << 20);
+	converted_humi *= 100.0;
+	char float_str[8];
+	uart_printstr("Humidity: ");
+	dtostrf(converted_humi, 3, 1, float_str);
+	uart_printstr(float_str);
+	uart_printstr("%");
 }

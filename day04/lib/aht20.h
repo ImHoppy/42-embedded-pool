@@ -2,10 +2,12 @@
 
 typedef struct
 {
-	uint16_t humidity;
-	uint8_t humidity_temp;
-	uint16_t temp;
+	uint64_t humidity;
+	uint64_t temp;
 } aht20_data;
 
 void aht20_init(void);
 aht20_data aht20_mesure(void);
+
+void print_temp(uint64_t temp);
+void print_humi(uint64_t humi);
