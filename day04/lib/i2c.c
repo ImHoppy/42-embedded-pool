@@ -69,6 +69,8 @@ void i2c_read(uint8_t ack)
 	// Send ACK to ask for a byte.
 	TWCR = _BV(TWINT) | _BV(TWEN) | (ack ? _BV(TWEA) : 0);
 	WAIT_DATA;
+#ifdef I2C_DEBUG_READ
 	uart_printhex(TWDR);
 	uart_printstr(" ");
+#endif
 }

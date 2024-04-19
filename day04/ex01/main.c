@@ -5,8 +5,7 @@
 #include <uart.h>
 #include <aht20.h>
 
-#define AHT20_ADDR 0x38
-#define AHT20_CMD 0xAC
+#define I2C_DEBUG_READ
 
 int main(void)
 {

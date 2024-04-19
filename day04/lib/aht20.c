@@ -1,4 +1,5 @@
 #include <util/delay.h>
+#include <util/twi.h>
 #include <avr/io.h>
 #include <aht20.h>
 #include <uart.h>
@@ -31,7 +32,6 @@ void aht20_init(void)
 	i2c_read(NACK);
 	i2c_stop();
 	const uint8_t status = TWDR;
-	uart_printbin(status);
 
 	if (!(status & _BV(AHT20_STATUS_CALBIT)))
 	{
@@ -48,8 +48,9 @@ void aht20_init(void)
 	_delay_ms(50);
 }
 
-void aht20_mesure(void)
+aht20_data aht20_mesure(void)
 {
+	aht20_data data = {0};
 	i2c_start(AHT20_ADDR, I2C_WRITE);
 	i2c_write(AHT20_MESURE_CMD);
 	i2c_write(AHT20_MESURE_PARAM);
@@ -61,10 +62,17 @@ void aht20_mesure(void)
 	if (!(TWDR & _BV(AHT20_BUSY)))
 	{
 		i2c_read(ACK);
+		data.humidity = TWDR << 8;
 		i2c_read(ACK);
+		data.humidity |= TWDR;
 		i2c_read(ACK);
+		data.humidity_temp = TWDR;
 		i2c_read(ACK);
+		data.temp = TWDR << 8;
+		i2c_read(ACK);
+		data.temp |= TWDR;
 		i2c_read(NACK);
 	}
 	i2c_stop();
+	return data;
 }
