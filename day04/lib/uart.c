@@ -41,6 +41,12 @@ void uart_printhex(uint8_t n)
 	uart_tx(c < 10 ? c + '0' : c - 10 + 'A');
 }
 
+void uart_printbin(uint8_t n)
+{
+	for (uint8_t i = 0; i < 8; ++i)
+		uart_tx((n & (1 << (7 - i))) ? '1' : '0');
+}
+
 // Data Reception (20.7)
 char uart_rx(void)
 {
