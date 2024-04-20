@@ -8,6 +8,14 @@
 
 extern volatile game_state_t game_state;
 
+void send_light_update(uint8_t sec)
+{
+	i2c_start(0x10, I2C_WRITE);
+	i2c_write(TIMER | (sec << 4));
+	i2c_stop();
+	light_led(sec);
+}
+
 void master_loop()
 {
 	static game_state_t old_game_state = IDLE;
@@ -16,6 +24,7 @@ void master_loop()
 	old_game_state = game_state;
 	if (game_state == NOT_READY)
 	{
+		light_rgb(game_state);
 		uint8_t is_ready = 0;
 		i2c_start(0x10, I2C_READ);
 		while (is_ready == 0)
@@ -41,37 +50,61 @@ void master_loop()
 	}
 	else if (game_state == INGAME)
 	{
+		_delay_ms(10);
 		uart_printstr("GAME STARTED \n\r");
-		int sec = 0;
-		while (sec < 4)
-		{
-			i2c_start(0x10, I2C_WRITE);
-			i2c_write(TIMER | (sec << 4));
-			i2c_stop();
-			light_led(sec);
-			_delay_ms(1000);
-			sec += 1;
-		}
-		// Turn off last leds
-		i2c_start(0x10, I2C_WRITE);
-		i2c_write(TIMER | (4 << 4));
-		i2c_stop();
-		light_led(4);
-
-		// Checking if slave pressed button
+		uint8_t sec = 4;
 		uint8_t pressed = 0;
-		i2c_start(0x10, I2C_READ);
-		while (pressed != 1 && game_state == INGAME)
+		uint8_t millisec = 0;
+		while (sec > 0 && game_state == INGAME)
 		{
-			i2c_read(ACK);
-			pressed = TWDR;
+			sec -= 1;
+			send_light_update(sec);
+			millisec = 100;
+			while (millisec > 0)
+			{
+				_delay_ms(10);
+				millisec -= 1;
+
+				i2c_start(0x10, I2C_READ);
+				i2c_read(NACK);
+				i2c_stop();
+				pressed = TWDR;
+				if (pressed == 1)
+				{
+					game_state = WIN;
+				}
+				if (game_state != INGAME)
+					goto checkWinCondition;
+			}
 		}
-		i2c_read(NACK);
-		i2c_stop();
-		if (pressed)
+		while (sec == 0 && game_state == INGAME)
 		{
-			uart_printhex(pressed);
-			uart_printhex(game_state);
+			i2c_start(0x10, I2C_READ);
+			i2c_read(NACK);
+			i2c_stop();
+			pressed = TWDR;
+			if (pressed == 1)
+			{
+				goto checkWinCondition;
+			}
+		}
+
+	checkWinCondition:
+		// Turn off last leds
+		send_light_update(4);
+
+		uart_printstr("\n\rEnd of game\n\r");
+		uart_printhex(pressed);
+		uart_printstr(" ");
+		uart_printhex(game_state);
+		uart_printstr(" ");
+		uart_printhex(sec);
+		uart_printstr(" ");
+		uart_printhex(millisec);
+		uart_printstr("\n\r");
+		// Checking if slave pressed button
+		if ((pressed == 1 && sec == 0 && millisec == 0) || (pressed == 0 && (sec != 0 || millisec != 0)))
+		{
 			game_state = LOOSE;
 			i2c_start(0x10, I2C_WRITE);
 			i2c_write(CHANGE_GAME_STATUS | (WIN << 4));
