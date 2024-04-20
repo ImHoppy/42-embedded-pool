@@ -21,10 +21,13 @@ void light_led(uint8_t index)
 
 void light_rgb(game_state_t status)
 {
-
-	if (status == WIN)
+	if (status == NOT_READY)
 	{
-		PORTD = (1 << PD3);
+		PORTD &= ~((1 << PD6) | (1 << PD5));
+	}
+	else if (status == WIN)
+	{
+		PORTD = (1 << PD6);
 	}
 	else if (status == LOOSE)
 	{
@@ -76,6 +79,7 @@ ISR(PCINT2_vect)
 	}
 	else
 	{
+		slave_button_state = 0;
 		sw_pressed = 0;
 	}
 }
@@ -83,7 +87,7 @@ ISR(PCINT2_vect)
 int main()
 {
 	DDRB = (1 << PINB0) | (1 << PINB1) | (1 << PINB2) | (1 << PINB4);
-	DDRD = (1 << PD3) | (1 << PD5);
+	DDRD = (1 << PD6) | (1 << PD5);
 
 	uart_init(UART_TX);
 	i2c_init();

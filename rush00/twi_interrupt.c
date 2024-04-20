@@ -52,6 +52,10 @@ ISR(TWI_vect)
 					light_rgb(game_state);
 					game_state = IDLE;
 				}
+				if (game_state == NOT_READY)
+				{
+					light_rgb(game_state);
+				}
 				break;
 			}
 			case TIMER:
