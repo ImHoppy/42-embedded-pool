@@ -78,7 +78,7 @@ aht20_data aht20_mesure(void)
 	return data;
 }
 
-void print_temp(uint64_t temp)
+void print_temp(uint32_t temp)
 {
 	float converted_temp = temp;
 	converted_temp /= (float)(1L << 20);
@@ -91,7 +91,7 @@ void print_temp(uint64_t temp)
 	uart_printstr(".C");
 }
 
-void print_humi(uint64_t humi)
+void print_humi(uint32_t humi)
 {
 	float converted_humi = humi;
 	converted_humi /= (float)(1L << 20);
