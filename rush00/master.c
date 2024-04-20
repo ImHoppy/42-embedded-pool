@@ -14,14 +14,10 @@ void master_loop()
 	if (old_game_state == game_state)
 		return;
 	old_game_state = game_state;
-	uart_printstr("CHANGE_GAME_STATUS  ");
-	uart_printhex(game_state);
-	uart_printstr("\n\r");
 	if (game_state == NOT_READY)
 	{
 		uint8_t is_ready = 0;
 		i2c_start(0x10, I2C_READ);
-		uart_printstr("AFTER START  ");
 		while (is_ready == 0)
 		{
 			// uart_printstr("WAITING FOR SLAVE IM_READY IN LOOP    ");
@@ -37,7 +33,6 @@ void master_loop()
 		_delay_ms(10);
 		if (is_ready)
 		{
-			uart_printstr("SLAVE IM_READY IN LOOP \n\r");
 			game_state = INGAME;
 			i2c_start(0x10, I2C_WRITE);
 			i2c_write(CHANGE_GAME_STATUS | (INGAME << 4));
@@ -77,7 +72,6 @@ void master_loop()
 		{
 			uart_printhex(pressed);
 			uart_printhex(game_state);
-			uart_printstr("SLAVE PRESSED BUTTON \n\r");
 			game_state = LOOSE;
 			i2c_start(0x10, I2C_WRITE);
 			i2c_write(CHANGE_GAME_STATUS | (WIN << 4));

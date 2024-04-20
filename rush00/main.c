@@ -35,14 +35,14 @@ void light_rgb(game_state_t status)
 ISR(PCINT2_vect)
 {
 	static uint8_t sw_pressed = 0;
-	uart_printstr("SW2  ");
-	uart_printhex(sw_pressed);
-	uart_printstr(" | ");
+	// uart_printstr("SW2  ");
+	// uart_printhex(sw_pressed);
+	// uart_printstr(" | ");
 
-	uart_printhex(is_slave);
-	uart_printstr(" | ");
-	uart_printhex(game_state);
-	uart_printstr("\n\r");
+	// uart_printhex(is_slave);
+	// uart_printstr(" | ");
+	// uart_printhex(game_state);
+	// uart_printstr("\n\r");
 	if (!sw_pressed)
 	{
 

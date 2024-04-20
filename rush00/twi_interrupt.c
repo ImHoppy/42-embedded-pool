@@ -12,13 +12,13 @@ extern volatile uint8_t slave_button_state;
 
 ISR(TWI_vect)
 {
-	uart_printstr("TWI_vect Status: ");
-	uart_printhex(TW_STATUS);
-	uart_printstr(" TypeData : ");
-	uart_printhex(TWDR & 0x0F);
-	uart_printstr(" Data: ");
-	uart_printhex(TWDR >> 4);
-	uart_printstr("\n\r");
+	// uart_printstr("TWI_vect Status: ");
+	// uart_printhex(TW_STATUS);
+	// uart_printstr(" TypeData : ");
+	// uart_printhex(TWDR & 0x0F);
+	// uart_printstr(" Data: ");
+	// uart_printhex(TWDR >> 4);
+	// uart_printstr("\n\r");
 
 	// Handle TWI interrupt
 	// Check status and take appropriate action
@@ -61,7 +61,6 @@ ISR(TWI_vect)
 			}
 			case IM_READY:
 			{
-				uart_printstr("SLAVE IM_READY IN INTERRUPT \n\r");
 				if (is_slave || game_state != NOT_READY)
 					break;
 				game_state = INGAME;
@@ -71,8 +70,8 @@ ISR(TWI_vect)
 		}
 	case TW_SR_STOP: // Stop or repeated start condition received while selected
 					 // Prepare to receive next packet
-		uart_printstr("\n\r");
 		// uart_printstr("TW_SR_STOP");
+		// uart_printstr("\n\r");
 		break;
 		// Add more cases for other status codes as needed
 	}
