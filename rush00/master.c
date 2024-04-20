@@ -54,7 +54,7 @@ void master_loop()
 			i2c_write(TIMER | (sec << 4));
 			i2c_stop();
 			light_led(sec);
-			_delay_ms(100);
+			_delay_ms(1000);
 			sec += 1;
 		}
 		// Turn off last leds
