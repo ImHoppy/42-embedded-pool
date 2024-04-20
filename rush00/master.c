@@ -34,7 +34,7 @@ void master_loop()
 		}
 		i2c_read(NACK);
 		i2c_stop();
-		_delay_ms(100);
+		_delay_ms(10);
 		if (is_ready)
 		{
 			uart_printstr("SLAVE IM_READY IN LOOP \n\r");
@@ -54,23 +54,43 @@ void master_loop()
 			i2c_write(TIMER | (sec << 4));
 			i2c_stop();
 			light_led(sec);
-			_delay_ms(1000);
+			_delay_ms(100);
 			sec += 1;
 		}
+		// Turn off last leds
+		i2c_start(0x10, I2C_WRITE);
+		i2c_write(TIMER | (4 << 4));
+		i2c_stop();
+		light_led(4);
 
-		i2c_start(0x10, I2C_READ);
+		// Checking if slave pressed button
 		uint8_t pressed = 0;
-		while (is_ready == 0)
+		i2c_start(0x10, I2C_READ);
+		while (pressed != 1 && game_state == INGAME)
 		{
-			is_ready = TWDR;
+			i2c_read(ACK);
+			pressed = TWDR;
 		}
 		i2c_read(NACK);
 		i2c_stop();
-	}
-	else if (game_state == WIN)
-	{
-	}
-	else if (game_state == LOOSE)
-	{
+		if (pressed)
+		{
+			uart_printhex(pressed);
+			uart_printhex(game_state);
+			uart_printstr("SLAVE PRESSED BUTTON \n\r");
+			game_state = LOOSE;
+			i2c_start(0x10, I2C_WRITE);
+			i2c_write(CHANGE_GAME_STATUS | (WIN << 4));
+			i2c_stop();
+			light_rgb(LOOSE);
+		}
+		else
+		{
+			i2c_start(0x10, I2C_WRITE);
+			i2c_write(CHANGE_GAME_STATUS | (LOOSE << 4));
+			i2c_stop();
+			light_rgb(WIN);
+		}
+		game_state = IDLE;
 	}
 }

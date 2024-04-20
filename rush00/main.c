@@ -14,7 +14,22 @@ void light_led(uint8_t index)
 {
 	const uint8_t led_index[4] = {PB0, PB1, PB2, PB4};
 	PORTB = 0;
+	if (index > 3)
+		return;
 	PORTB ^= (1 << led_index[index]);
+}
+
+void light_rgb(game_state_t status)
+{
+
+	if (status == WIN)
+	{
+		PORTD = (1 << PD3);
+	}
+	else if (status == LOOSE)
+	{
+		PORTD = (1 << PD5);
+	}
 }
 
 ISR(PCINT2_vect)
@@ -55,9 +70,6 @@ ISR(PCINT2_vect)
 			}
 			else if (game_state == INGAME)
 			{
-				i2c_start(0x10, I2C_WRITE);
-				i2c_write(CHANGE_GAME_STATUS | (WIN << 4));
-				i2c_stop();
 				game_state = WIN;
 			}
 		}
@@ -70,7 +82,8 @@ ISR(PCINT2_vect)
 
 int main()
 {
-	DDRB = 0xFF;
+	DDRB = (1 << PINB0) | (1 << PINB1) | (1 << PINB2) | (1 << PINB4);
+	DDRD = (1 << PD3) | (1 << PD5);
 
 	uart_init(UART_TX);
 	i2c_init();

@@ -28,8 +28,6 @@ ISR(TWI_vect)
 	case TW_ST_SLA_ACK: // SLA+R received, ACK returned
 						// Read data from TWDR
 	{
-		if (game_state != NOT_READY)
-			break;
 		TWDR = slave_button_state;
 		uart_printhex(slave_button_state);
 		slave_button_state = 0;
@@ -46,11 +44,16 @@ ISR(TWI_vect)
 				break;
 			}
 			case CHANGE_GAME_STATUS:
-				uart_printstr("CHANGE_GAME_STATUS IN INTERRUPT ");
-				uart_printhex(TWDR >> 4);
-				uart_printstr("\n\r");
+			{
 				game_state = (game_state_t)(TWDR >> 4);
+				if (game_state == WIN || game_state == LOOSE)
+				{
+					is_slave = 0;
+					light_rgb(game_state);
+					game_state = IDLE;
+				}
 				break;
+			}
 			case TIMER:
 			{
 				const uint8_t timer_led = (TWDR >> 4);

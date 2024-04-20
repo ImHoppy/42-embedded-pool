@@ -23,6 +23,7 @@ typedef enum
 } game_state_t;
 
 void light_led(uint8_t index);
+void light_rgb(game_state_t status);
 void master_loop(void);
 void slave_loop(void);
 #endif
