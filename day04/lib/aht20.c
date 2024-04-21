@@ -3,6 +3,7 @@
 #include <avr/io.h>
 #include <aht20.h>
 #include <uart.h>
+#include <stdlib.h>
 
 #define AHT20_ADDR 0x38
 
@@ -62,16 +63,16 @@ aht20_data aht20_mesure(void)
 	if (!(TWDR & _BV(AHT20_BUSY)))
 	{
 		i2c_read(ACK);
-		data.humidity = TWDR << 12;
+		data.humidity = (uint32_t)TWDR << 12;
 		i2c_read(ACK);
-		data.humidity |= TWDR << 4;
+		data.humidity |= (uint32_t)TWDR << 4;
 		i2c_read(ACK);
-		data.humidity |= (TWDR & 0xF0) >> 4;
-		data.temp = (TWDR & 0x0f) << 16;
+		data.humidity |= (uint32_t)(TWDR & 0xF0) >> 4;
+		data.temp = (uint32_t)(TWDR & 0x0f) << 16;
 		i2c_read(ACK);
-		data.temp |= TWDR << 8;
+		data.temp |= (uint32_t)TWDR << 8;
 		i2c_read(ACK);
-		data.temp |= TWDR;
+		data.temp |= (uint32_t)TWDR;
 		i2c_read(NACK);
 	}
 	i2c_stop();
