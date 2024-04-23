@@ -1,5 +1,5 @@
 BIN = target/main.bin
-SRCS = ./main.c
+SRCS = ./main.c ../lib/rgb.c
 
 CC = avr-gcc
 OBJCPY = avr-objcopy
