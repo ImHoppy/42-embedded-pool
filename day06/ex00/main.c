@@ -2,8 +2,8 @@
 #include <util/delay.h>
 
 #define RED_LED (1 << PD5)
-#define GREEN_LED (1 << PD3)
-#define BLUE_LED (1 << PD6)
+#define GREEN_LED (1 << PD6)
+#define BLUE_LED (1 << PD3)
 
 int main()
 {
@@ -16,12 +16,12 @@ int main()
 		switch (PORTD)
 		{
 		case RED_LED:
-			PORTD = BLUE_LED;
-			break;
-		case BLUE_LED:
 			PORTD = GREEN_LED;
 			break;
 		case GREEN_LED:
+			PORTD = BLUE_LED;
+			break;
+		case BLUE_LED:
 			PORTD = RED_LED;
 			break;
 		}
