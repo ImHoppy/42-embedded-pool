@@ -35,14 +35,14 @@ int main()
 		uint8_t adc = adc_read8(0);
 		wheel(adc);
 		PORTB = 0;
-		if (adc < 64)
-			PORTB = (1 << PB0);
-		else if (adc < 128)
-			PORTB = (1 << PB1);
-		else if (adc < 192)
-			PORTB = (1 << PB2);
-		else
-			PORTB = (1 << PB4);
+		if (adc >= 63 * 1)
+			PORTB |= (1 << PB0);
+		if (adc >= 63 * 2)
+			PORTB |= (1 << PB1);
+		if (adc >= 63 * 3)
+			PORTB |= (1 << PB2);
+		if (adc >= 63 * 4)
+			PORTB |= (1 << PB4);
 		_delay_ms(20);
 	}
 }
