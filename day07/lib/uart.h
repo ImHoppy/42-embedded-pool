@@ -26,6 +26,8 @@ void uart_tx(char c);
 void uart_printstr(const char *str);
 void uart_printhex(uint8_t n);
 void uart_printbin(uint8_t n);
+void uart_printdec(uint16_t n);
+void uart_printnl(void);
 
 // Receive functions
 char uart_rx(void);
