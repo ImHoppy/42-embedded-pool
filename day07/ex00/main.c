@@ -18,6 +18,9 @@ int main()
 	// Start conversion
 	ADCSRA |= (1 << ADSC);
 
+	// Read in 8 bits
+	ADMUX |= (1 << ADLAR);
+
 	uart_init(UART_TX);
 
 	while (1)
@@ -25,11 +28,10 @@ int main()
 		// Wait for conversion to complete
 		while (ADCSRA & (1 << ADSC))
 			;
-		// Read ADC value
-		uint16_t adc = ADC;
+		// Read only 8 bits of ADC value
+		uint8_t adc = ADCH;
 		// Send ADC value to UART
-		uart_printhex(adc >> 8);
-		uart_printhex(adc & 0xFF);
+		uart_printhex(adc);
 		uart_printstr("\n\r");
 		// Start conversion
 		ADCSRA |= (1 << ADSC);
