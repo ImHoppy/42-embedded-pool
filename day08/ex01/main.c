@@ -28,7 +28,7 @@ int main()
 
 	while (1)
 	{
-		spi_set_leds(((uint32_t)0x01 << 24) | leds_cycles[i], 0, 0);
+		spi_set_leds(LOW_BRIGHTNESS | leds_cycles[i], 0, 0);
 		i = (i + 1) % (sizeof(leds_cycles) / sizeof(leds_cycles[0]));
 
 		_delay_ms(1000);

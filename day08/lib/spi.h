@@ -9,6 +9,10 @@ typedef enum
 	SPI_SLAVE
 } spi_mode_t;
 
+#define LOW_BRIGHTNESS ((uint32_t)0x01 << 24)
+#define MEDIUM_BRIGHTNESS ((uint32_t)0xF0 << 24)
+#define HIGH_BRIGHTNESS ((uint32_t)0x1f << 24)
+
 void spi_init(spi_mode_t mode);
 
 void spi_tx(uint8_t data);
