@@ -12,7 +12,7 @@
 typedef struct
 {
 	char history[4][LINE_LEN];
-	uint8_t history_index;
+	int8_t history_index;
 	uint8_t cursor_position;
 } history_data_t;
 

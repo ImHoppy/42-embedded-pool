@@ -45,10 +45,18 @@ static void handle_esc_sequence(char line[LINE_LEN], history_data_t *history_dat
 		}
 		else if (c == 'B') // Down arrow
 		{
-			if (history_data->history_index > 0)
+			if (history_data->history_index >= 0)
 			{
 				history_data->history_index--;
-				update_current_line(line, history_data, len);
+				if (history_data->history_index == -1)
+				{
+					uart_printstr("\33[2K\r#");
+					*len = 0;
+					history_data->cursor_position = 0;
+					uart_printstr("#");
+				}
+				else
+					update_current_line(line, history_data, len);
 			}
 		}
 		else if (c == 'C') // Right arrow
@@ -95,7 +103,7 @@ void read_line(char line[LINE_LEN])
 {
 	uint8_t len = 0;
 	static history_data_t history_data = {0};
-	history_data.history_index = 0;
+	history_data.history_index = -1;
 	history_data.cursor_position = 0;
 
 	uart_printstr("#");
