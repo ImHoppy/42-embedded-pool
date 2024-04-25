@@ -20,11 +20,11 @@ int main()
 		uint32_t led2 = 0;
 		PORTB = 0;
 		if (percentage >= 33)
-			led0 = LOW_BRIGHTNESS | 0xFF0000;
+			led0 = LOW_BRIGHTNESS | RED_LED;
 		if (percentage >= 66)
-			led1 = LOW_BRIGHTNESS | 0xFF0000;
+			led1 = LOW_BRIGHTNESS | RED_LED;
 		if (percentage >= 100)
-			led2 = LOW_BRIGHTNESS | 0xFF0000;
+			led2 = LOW_BRIGHTNESS | RED_LED;
 		spi_set_leds(led0, led1, led2);
 		_delay_ms(20);
 	}
