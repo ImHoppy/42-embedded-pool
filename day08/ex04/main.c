@@ -143,11 +143,12 @@ int main()
 		color = LOW_BRIGHTNESS | ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
 		uint8_t led = hextodec(line[7]);
 
-		if (led > 2)
+		if (led < 6 || led > 8)
 		{
 			uart_printstr(UNKNOW_LED_MSG);
 			continue;
 		}
+		led -= 6;
 		leds[led] = color;
 		spi_set_leds(leds[0], leds[1], leds[2]);
 	}
