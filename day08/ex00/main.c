@@ -82,14 +82,31 @@ void spi_end()
 	SPCR &= ~_BV(SPE);
 }
 
+void spi_tx_led(uint8_t bright, uint8_t r, uint8_t g, uint8_t b)
+{
+	// 3 Bit of padding and 5 Bit of brightness
+	spi_tx(0b11100000 | bright);
+	// Blue
+	spi_tx(b);
+	// Green
+	spi_tx(g);
+	// Red
+	spi_tx(r);
+}
 
 int main()
 {
 	uart_init(UART_TX);
 	spi_init(SPI_MASTER);
 
-	while (1)
-	{
-		_delay_ms(20);
-	}
+	// Start transmission
+	spi_tx32(0);
+	// Set LED 0 to RED
+	spi_tx_led(0x1, 255, 0, 0);
+	spi_tx_led(0x1, 0, 255, 0);
+	spi_tx_led(0x1, 0, 0, 255);
+
+	// Stop transmission
+	spi_tx32(0xFFFFFFFF);
+	spi_end();
 }
