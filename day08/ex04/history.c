@@ -85,8 +85,6 @@ void read_line(char line[LINE_LEN])
 	while (1)
 	{
 		char c = uart_rx();
-		uart_printhex(c);
-		uart_tx(' ');
 		if (c == ' ' || c == '\t' || c == '#')
 			continue;
 		if (c == 0x7f) // backspace
