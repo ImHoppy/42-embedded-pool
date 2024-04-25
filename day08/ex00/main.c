@@ -3,6 +3,7 @@
 #include <uart.h>
 
 #define DDR_SPI DDRB
+#define DD_SS PB2
 #define DD_MOSI PB3
 #define DD_MISO PB4
 #define DD_SCK PB5
@@ -27,7 +28,7 @@ void spi_init(spi_mode_t mode)
 		// Set clock rate fck/16
 		SPCR |= (1 << SPR0);
 		// Set MOSI and SCK output, all others input
-		DDR_SPI = (1 << DD_MOSI) | (1 << DD_SCK);
+		DDR_SPI = (1 << DD_MOSI) | (1 << DD_SCK) | (1 << DD_SS);
 		// SPE: SPI Enable
 		SPCR |= (1 << SPE);
 	}
@@ -53,6 +54,20 @@ void spi_tx(uint8_t data)
 		;
 }
 
+void spi_tx16(uint16_t data)
+{
+	spi_tx((uint8_t)(data >> 8));
+	spi_tx((uint8_t)data);
+}
+
+void spi_tx32(uint32_t data)
+{
+	spi_tx((uint8_t)(data >> 24));
+	spi_tx((uint8_t)(data >> 16));
+	spi_tx((uint8_t)(data >> 8));
+	spi_tx((uint8_t)data);
+}
+
 uint8_t spi_rx()
 {
 	// Wait for reception complete
@@ -61,6 +76,12 @@ uint8_t spi_rx()
 	// Return data register
 	return SPDR;
 }
+
+void spi_end()
+{
+	SPCR &= ~_BV(SPE);
+}
+
 
 int main()
 {
