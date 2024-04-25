@@ -53,13 +53,13 @@ void spi_tx(uint8_t data)
 		;
 }
 
-void spi_rx(uint8_t *data)
+uint8_t spi_rx()
 {
 	// Wait for reception complete
 	while (!(SPSR & (1 << SPIF)))
 		;
 	// Return data register
-	*data = SPDR;
+	return SPDR;
 }
 
 int main()
