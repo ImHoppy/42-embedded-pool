@@ -87,3 +87,12 @@ void spi_end()
 {
 	SPCR &= ~_BV(SPE);
 }
+
+void spi_set_leds(uint32_t led0, uint32_t led1, uint32_t led2)
+{
+	spi_tx32(0);
+	spi_tx_led(led0 >> 24, (led0 >> 16) & 0xFF, (led0 >> 8) & 0xFF, led0 & 0xFF);
+	spi_tx_led(led1 >> 24, (led1 >> 16) & 0xFF, (led1 >> 8) & 0xFF, led1 & 0xFF);
+	spi_tx_led(led2 >> 24, (led2 >> 16) & 0xFF, (led2 >> 8) & 0xFF, led2 & 0xFF);
+	spi_tx32(0xFFFFFFFF);
+}
