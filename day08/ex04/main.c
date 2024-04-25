@@ -59,6 +59,9 @@ int main()
 
 	uint32_t leds[3] = {0};
 
+	// Clear the LEDs
+	spi_set_leds(leds[0], leds[1], leds[2]);
+
 	while (1)
 	{
 		read_line(line);
