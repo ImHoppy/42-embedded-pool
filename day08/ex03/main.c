@@ -14,19 +14,19 @@ int main()
 
 	while (1)
 	{
-		uint8_t adc = adc_read8(0);
+		uint8_t percentage = adc_read8(0) / 2.55;
 		uint32_t led0 = 0;
 		uint32_t led1 = 0;
 		uint32_t led2 = 0;
 		PORTB = 0;
-		if (adc >= 85 * 1)
+		if (percentage >= 33)
 			led0 = LOW_BRIGHTNESS | 0xFF0000;
-		if (adc >= 85 * 2)
+		if (percentage >= 66)
 			led1 = LOW_BRIGHTNESS | 0xFF0000;
-		if (adc >= 85 * 3)
+		if (percentage >= 100)
 			led2 = LOW_BRIGHTNESS | 0xFF0000;
 		spi_set_leds(led0, led1, led2);
-		_delay_ms(10);
+		_delay_ms(20);
 	}
 
 	spi_end();
