@@ -28,10 +28,12 @@ ISR(PCINT2_vect)
 	if (!is_pressed)
 	{
 		led_index = (led_index + 1) % 3;
+#ifdef DEBUG
 		PORTB &= ~((1 << PIN2) | (1 << PIN1) | (1 << PIN0));
 		PORTB |= (led_index == 0) ? (1 << PIN2) : 0;
 		PORTB |= (led_index == 1) ? (1 << PIN1) : 0;
 		PORTB |= (led_index == 2) ? (1 << PIN0) : 0;
+#endif
 	}
 	// Neutralizing bounce effect
 	_delay_ms(20);
@@ -51,11 +53,13 @@ int main()
 
 	PCMSK2 |= (0b1 << PCINT20); // Set PCINT20 (SW2) to be interrupted
 	PCICR |= (0b1 << PCIE2);	// Enable interrupt for PCINT[23:16] to PCINT2_vect
+	sei();
 
+#ifdef DEBUG
 	// Enable output for LED D5
 	DDRD |= RED_LED | GREEN_LED | BLUE_LED;
 	DDRB |= (1 << PIN2) | (1 << PIN1) | (1 << PIN0);
-	sei();
+#endif
 
 	uint8_t colors[3][3] = {0};
 
@@ -66,11 +70,12 @@ int main()
 			rgb_color_index = (rgb_color_index + 1) % 3;
 			_delay_ms(20);
 			sw1_state = 0;
-
+#ifdef DEBUG
 			PORTD &= ~(RED_LED | GREEN_LED | BLUE_LED);
 			PORTD |= (rgb_color_index == 0) ? RED_LED : 0;
 			PORTD |= (rgb_color_index == 1) ? GREEN_LED : 0;
 			PORTD |= (rgb_color_index == 2) ? BLUE_LED : 0;
+#endif
 		}
 
 		uint8_t adc = adc_read8(0);
