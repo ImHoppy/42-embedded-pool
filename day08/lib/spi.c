@@ -8,12 +8,6 @@
 #define DD_MISO PB4
 #define DD_SCK PB5
 
-typedef enum
-{
-	SPI_MASTER,
-	SPI_SLAVE
-} spi_mode_t;
-
 void spi_init(spi_mode_t mode)
 {
 	// SPCR: SPI Control Register (19.5.1)
