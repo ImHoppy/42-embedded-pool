@@ -71,6 +71,23 @@ static void handle_esc_sequence(char line[LINE_LEN], history_data_t *history_dat
 				history_data->cursor_position--;
 			}
 		}
+		else if (c == '3')
+		{
+			c = uart_rx();
+			if (c == '~') // Delete
+			{
+				if (history_data->cursor_position < *len)
+				{
+					for (int i = history_data->cursor_position; i < *len; i++)
+						line[i] = line[i + 1];
+					(*len)--;
+					uart_printstr("\33[2K\r#");
+					uart_printstr(line);
+					for (int i = history_data->cursor_position; i < *len; i++)
+						uart_tx('\b');
+				}
+			}
+		}
 	}
 }
 
