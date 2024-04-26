@@ -41,5 +41,12 @@ int main()
 	i2c_write(0b00001111); // Set output digit selector
 	i2c_write(0x00);	   // Set output all segments
 	i2c_stop();
-	seg7_display(0, 2);
+
+	uint8_t number = 0;
+	while (1)
+	{
+		seg7_display(0, number);
+		number = (number + 1) % 10;
+		_delay_ms(1000);
+	}
 }
