@@ -30,8 +30,10 @@ uint8_t i2c_start(uint8_t slave_address, i2c_WRITE_READ read_write)
 	// Wait for TWINT Flag set (22.7.1)
 	WAIT_DATA;
 
+#ifdef I2C_DEBUG
 	uart_printhex(TW_STATUS);
 	uart_printstr(" ");
+#endif
 	// if START has been transmitted.
 	if (TW_STATUS != TW_START)
 		return (0);
@@ -42,8 +44,10 @@ uint8_t i2c_start(uint8_t slave_address, i2c_WRITE_READ read_write)
 	// Wait end of transmission
 	WAIT_DATA;
 
+#ifdef I2C_DEBUG
 	uart_printhex(TW_STATUS);
 	uart_printstr("\n\r");
+#endif
 	// if SLA+W has been transmitted and ACK has been received.
 	if (TW_STATUS != TW_MT_SLA_ACK)
 		return (0);
