@@ -62,8 +62,7 @@ int main()
 
 	while (1)
 	{
-
-		for (int i = 0; i < 4; i++)
+		for (uint8_t i = 0; i < 4; i++)
 		{
 			seg7_display(0, number % 10);
 			seg7_display(1, (number / 10) % 10);
