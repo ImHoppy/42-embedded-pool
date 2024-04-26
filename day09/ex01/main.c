@@ -61,19 +61,15 @@ int main()
 		uint8_t data = read_at(0);
 		if (data)
 		{
-			i2c_stop();
-			number = (number + 1) % 8;
-			update_leds(number);
-
-			start_read();
-			data = read_at(0);
 			while (data)
 			{
 				data = read_at(0);
-				_delay_ms(100);
+				_delay_ms(20);
 			}
 			i2c_stop();
+			number = (number + 1) % 8;
+			update_leds(number);
 		}
-		_delay_ms(25);
+		_delay_ms(20);
 	}
 }
