@@ -1,0 +1,3 @@
+[submodule "rush01"]
+	path = rush01
+	url = git@github.com:ImHoppy/42-embedded-pool-rush01.git
