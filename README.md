@@ -69,7 +69,7 @@ Through the **Embedded Pool** project, I enhanced my skills in the following are
 - **Objective**: Use an I2C 16-Bit I/O Expander ([PCA9555](https://www.ti.com/lit/ds/symlink/pca9555.pdf)) to display the value of the potentiometer.
 - **Skills Learned**: Interfacing with I/O expanders, driving a 7-segment display.
 
-### [Rush 01](./rush01): Final Boss
+### [Rush 01](../../../42-embedded-pool-rush01): Final Boss
 - **Objective**: Combine all learned skills into a single program that can switch modes with a button press (e.g., display temperature, read ADC, light up all RGB LEDs, etc.).
 - **Skills Learned**: Integration of various modules, complex program design, mode switching.
 
