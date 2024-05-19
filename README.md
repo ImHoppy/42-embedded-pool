@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Embedded Pool** is an intensive project aimed at learning embedded programming using a development board created by 42Chips featuring an ATmega328P microcontroller. This project, which spans over two weeks, involves studying official documentation of the microcontroller and various peripherals, understanding the schematics of the board, and mastering several communication protocols.
+**Embedded Pool** is an intensive project aimed at learning embedded programming using a development board created by 42Chips featuring an [ATmega328P](https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf) microcontroller. This project, which spans over two weeks, involves studying official documentation of the microcontroller and various peripherals, understanding the schematics of the board, and mastering several communication protocols.
 
 Each day, we focused on a new aspect of the development board, culminating in weekend rush projects that required quick thinking and teamwork. This README provides a detailed overview of the project, what was learned each day, and the overall objectives achieved.
 
@@ -42,7 +42,7 @@ Through the **Embedded Pool** project, I enhanced my skills in the following are
 - **Skills Learned**: Serial communication, UART configuration.
 
 ### [Day 04](./day04): I2C Protocol
-- **Objective**: Read ambient temperature from the AHT20 sensor using I2C.
+- **Objective**: Read ambient temperature from the [AHT20](http://www.aosong.com/userfiles/files/media/Data%20Sheet%20AHT20.pdf) sensor using I2C.
 - **Skills Learned**: I2C protocol, interfacing with sensors.
 
 ### [Rush 00](./rush00): Multiplayer
@@ -66,7 +66,7 @@ Through the **Embedded Pool** project, I enhanced my skills in the following are
 - **Skills Learned**: SPI communication, controlling multiple devices.
 
 ### [Day 09](./day09): 7-Segment Display
-- **Objective**: Use an I2C 16-Bit I/O Expander (PCA9555) to display the value of the potentiometer.
+- **Objective**: Use an I2C 16-Bit I/O Expander ([PCA9555](https://www.ti.com/lit/ds/symlink/pca9555.pdf)) to display the value of the potentiometer.
 - **Skills Learned**: Interfacing with I/O expanders, driving a 7-segment display.
 
 ### [Rush 01](./rush01): Final Boss
