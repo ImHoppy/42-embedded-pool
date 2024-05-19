@@ -6,6 +6,11 @@
 
 Each day, we focused on a new aspect of the development board, culminating in weekend rush projects that required quick thinking and teamwork. This README provides a detailed overview of the project, what was learned each day, and the overall objectives achieved.
 
+<p align="center">
+  <img src="./assets/board.png" hspace="10" alt="Board Setup" width="45%">
+  <img src="./assets/schema.png" hspace="10" alt="Schematic" width="45%">
+</p>
+
 ## Learning Outcomes
 
 Through the **Embedded Pool** project, I enhanced my skills in the following areas:
