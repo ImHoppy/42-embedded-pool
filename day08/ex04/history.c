@@ -5,16 +5,16 @@
 #include "history.h"
 #include <uart.h>
 
-void add_to_history(char history[4][12], char line[LINE_LEN])
+void add_to_history(char history[4][LINE_LEN], char line[LINE_LEN])
 {
 	for (uint8_t i = 3; i > 0; i--)
 	{
-		for (uint8_t j = 0; j < 12; j++)
+		for (uint8_t j = 0; j < LINE_LEN; j++)
 		{
 			history[i][j] = history[i - 1][j];
 		}
 	}
-	for (uint8_t i = 0; i < 12; i++)
+	for (uint8_t i = 0; i < LINE_LEN; i++)
 	{
 		history[0][i] = line[i];
 	}
